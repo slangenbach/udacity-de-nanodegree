@@ -1,4 +1,4 @@
-# Data modeling data with Apache Cassandra
+# Data modeling with Apache Cassandra
 
 ## About
 The scripts (c.f. ```helpers.py``` ) and notebooks within this repository perform ETL (extract, transform, load) for
