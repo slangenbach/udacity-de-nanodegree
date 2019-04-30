@@ -1,4 +1,4 @@
-# Data modelling data with PostgreSQL
+# Data modeling data with PostgreSQL
 
 ## About
 The scripts within this repository perform ETL (extract, transform, load) for
@@ -7,7 +7,7 @@ After target tables have been created (c.f. ```create_tables.py```), data stored
 on the local filesystem in JSON-format is loaded from the data directory as 
 pandas Dataframes, processed (c.f. ```etl.py```) and inserted into a PostgreSQL
 database (c.f. ```sql_queries.py```). The code in ```helpers.py``` contains just
-some functions that were used during development of the ETL-process (c.f. ```etl.ipynb```).
+some functions that were used during development of the ETL-process (c.f. ```postgres.ipynb```).
 
 
 After the scripts have been executed, analysts will be able to query fact 
@@ -40,7 +40,7 @@ python etl.py
 
 ## Limitations
 * Although database tables do require specific types and enforce a few checks (c.f. ```sql_queries.py```),
-when upsering data, not test suite for the ETL script exists yet.
+when upserting data, not test suite for the ETL script exists yet.
 
 ## Ressources
 * [PostgreSQL constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)
