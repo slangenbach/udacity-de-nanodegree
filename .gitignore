@@ -105,3 +105,4 @@ venv.bak/
 
 # user defined ignores
 .idea/
+redshift/dwh.cfg
