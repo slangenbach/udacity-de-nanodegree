@@ -42,7 +42,7 @@ python etl.py
 * Although database tables do require specific types and enforce a few checks (c.f. ```sql_queries.py```),
 when upserting data, not test suite for the ETL script exists yet.
 
-## Ressources
+## Resources
 * [PostgreSQL constraints](https://www.postgresql.org/docs/current/ddl-constraints.html)
 * [PostgreSQL inserts](https://www.postgresql.org/docs/current/sql-insert.html)
 * [PostgreSQL CREATE TABLE command](https://www.postgresql.org/docs/current/sql-createtable.html)
