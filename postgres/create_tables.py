@@ -23,12 +23,22 @@ def create_database():
 
 
 def drop_tables(cur, conn):
+    """
+    Drop tables as specified by SQL statements in drop_table_queries list
+    :param cur: psycopg2 cursor
+    :param conn: psycopg2 connection
+    """
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+    """
+    Create tables as specified by SQL statements in create_table_queries list
+    :param cur: psycopg2 cursor
+    :param conn: psycopg2 connection
+    """
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
