@@ -106,3 +106,5 @@ venv.bak/
 # user defined ignores
 .idea/
 redshift/dwh.cfg
+airflow/*.cfg
+airflow/plugins/helpers/
