@@ -3,6 +3,7 @@ from airflow.hooks.postgres_hook import PostgresHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
+
 class LoadFactOperator(BaseOperator):
     """
     Custom operator to load data from staging tables into fact table via SQL.
@@ -16,6 +17,7 @@ class LoadFactOperator(BaseOperator):
                  fact_table: str,
                  fact_cols: str,
                  sql: str,
+                 truncate: bool,
                  *args, **kwargs):
 
         super(LoadFactOperator, self).__init__(*args, **kwargs)
@@ -23,12 +25,17 @@ class LoadFactOperator(BaseOperator):
         self.fact_table = fact_table
         self.fact_cols = fact_cols
         self.sql = sql
+        self.truncate = truncate
 
     def execute(self, context):
 
         # connect to redshift
         logging.debug("Connecting to Redshift")
         redshift_hook = PostgresHook(self.redshift_conn_id)
+
+        # clear fact table if desired
+        if self.truncate:
+            redshift_hook.run(f"TRUNCATE {self.fact_table}")
 
         # load data from staging into fact table
         logging.info(f"Loading data into fact table {self.fact_table}")
