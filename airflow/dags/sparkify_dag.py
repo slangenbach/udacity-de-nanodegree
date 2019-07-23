@@ -10,9 +10,9 @@ from airflow.operators import (StageToRedshiftOperator, LoadFactOperator, LoadDi
 # specify DAG default arguments
 default_args = {
     'owner': 'sparkify',
-    'start_date': datetime(2019, 7, 22),  # 2019, 1, 12
+    'start_date': datetime(2019, 1, 12),
     'depends_on_past': False,
-    'retries': 0,  # 3
+    'retries': 3,
     'retry_delay': timedelta(minutes=5),
     'catchup': False,
     'email_on_retry': False,
@@ -28,10 +28,10 @@ default_args = {
 }
 
 # define DAG
-with DAG(dag_id="sparkify_dag_new",
+with DAG(dag_id="sparkify_dag",
          description="Load and transform data from S3 into Redshift",
          default_args=default_args,
-         schedule_interval="@once",  # @hourly
+         schedule_interval="@hourly",
          template_searchpath=str(Path(__file__).parent.parent.joinpath("sql"))) as dag:
 
     # define tasks
@@ -49,7 +49,8 @@ with DAG(dag_id="sparkify_dag_new",
         s3_key="log-data",
         s3_region="{{ params.s3_region }}",
         redshift_table="staging_events",
-        json_path="{{ params.s3_json_path }}"
+        json_path="{{ params.s3_json_path }}",
+        truncate=False
     )
 
     stage_songs_to_redshift = StageToRedshiftOperator(
@@ -59,47 +60,54 @@ with DAG(dag_id="sparkify_dag_new",
         s3_key="song-data",
         s3_region="{{ params.s3_region }}",
         redshift_table="staging_songs",
-        json_path="auto"
+        json_path="auto",
+        truncate=False
     )
 
     load_songplays_table = LoadFactOperator(
         task_id="load_songplay_fact_table",
         fact_table="songplay",
         fact_cols="playid, start_time, userid, level, songid, artistid, sessionid, location, user_agent",
-        sql="songplay_insert.sql"
+        sql="songplay_insert.sql",
+        truncate=False
     )
 
     load_user_dimension_table = LoadDimensionOperator(
         task_id='load_user_dim_table',
         dim_table="users",
         dim_cols="userid, first_name, last_name, gender, 'level'",
-        sql="user_insert.sql"
+        sql="user_insert.sql",
+        truncate=False
     )
 
     load_song_dimension_table = LoadDimensionOperator(
         task_id='load_song_dim_table',
         dim_table="songs",
         dim_cols="songid, title, artistid, 'year', duration",
-        sql="song_insert.sql"
+        sql="song_insert.sql",
+        truncate=False
     )
 
     load_artist_dimension_table = LoadDimensionOperator(
         task_id='load_artist_dim_table',
         dim_table="artists",
         dim_cols="artistid, name, location, latitude, longitude",
-        sql="artist_insert.sql"
+        sql="artist_insert.sql",
+        truncate=False
     )
 
     load_time_dimension_table = LoadDimensionOperator(
         task_id='load_time_dim_table',
         dim_table="time",
         dim_cols="start_time, 'hour', 'day', week, 'month', 'year', weekday",
-        sql="time_insert.sql"
+        sql="time_insert.sql",
+        truncate=False
     )
 
     run_quality_checks = DataQualityOperator(
         task_id='run_data_quality_checks',
-        check_tables=["users", "songs", "artists", "time"]
+        check_tables=["songplay", "users", "songs", "artists", "time"],
+        check_sql="has_rows"
     )
 
     end = DummyOperator(task_id='Stop_execution')
