@@ -17,6 +17,13 @@ class DataQualityOperator(BaseOperator):
                  check_tables: list,
                  check_sql: str,
                  *args, **kwargs):
+        """
+        :param redshift_conn_id: Connection to Redshift database
+        :param check_tables: List of Redshift tables to run data quality checks against
+        :param check_sql: Custom SQL statement specifying data quality check (use "has_rows" to use built-in check)
+        :param args: Additional arguments
+        :param kwargs: Additional keyword arguments
+        """
 
         super(DataQualityOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id

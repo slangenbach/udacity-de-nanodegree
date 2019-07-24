@@ -7,7 +7,6 @@ from airflow.utils.decorators import apply_defaults
 class StageToRedshiftOperator(BaseOperator):
     """
     Custom operator capable of loading CSV/JSON-formatted files from AWS S3 to AWS Redshift.
-    TODO: Add ability to load timestamped files
     """
     ui_color = '#358140'
     template_fields = ("aws_iam_role", "s3_bucket", "s3_key", "s3_region", "redshift_table", "json_path")
@@ -22,6 +21,17 @@ class StageToRedshiftOperator(BaseOperator):
                  redshift_table: str,
                  json_path: str,
                  *args, **kwargs):
+        """
+        :param aws_iam_role: AWS IAM role required for COPY command
+        :param redshift_conn_id: Connection to Redshift database
+        :param s3_bucket: S3 bucket to load data from
+        :param s3_key: Path within S3 bucket where data is located
+        :param s3_region: AWS region, e.g. us-west-2, where the bucket is located
+        :param redshift_table: Name of Redshift table in which data is loaded
+        :param json_path: Path to JSON file containing information how to handle data in S3 bucket
+        :param args: Additional arguments
+        :param kwargs: Additional keyword arguments
+        """
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
         self.aws_iam_role = aws_iam_role

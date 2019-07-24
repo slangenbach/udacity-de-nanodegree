@@ -19,6 +19,15 @@ class LoadDimensionOperator(BaseOperator):
                  sql: str,
                  truncate: bool,
                  *args, **kwargs):
+        """
+        :param redshift_conn_id: Connection to Redshift database
+        :param dim_table: Name of dimension table
+        :param dim_cols: List of column names of dimension table as string
+        :param sql: SQL statement used to select data that is inserted into dimension table
+        :param truncate: If True, clear dimension table before inserting new data
+        :param args: Additional arguments
+        :param kwargs: Additional keyword arguments
+        """
 
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
         self.redshift_conn_id = redshift_conn_id
