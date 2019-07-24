@@ -11,6 +11,7 @@ from airflow.operators import (StageToRedshiftOperator, LoadFactOperator, LoadDi
 default_args = {
     'owner': 'sparkify',
     'start_date': datetime(2019, 1, 12),
+    'end_date': datetime(2019, 7, 23),
     'depends_on_past': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
