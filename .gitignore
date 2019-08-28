@@ -108,3 +108,4 @@ venv.bak/
 redshift/dwh.cfg
 airflow/*.cfg
 airflow/plugins/helpers/
+capstone/app.cfg
