@@ -18,12 +18,14 @@ class TweetHandler:
         self.counter = 0
         self._batch = []
         self.batch_size = self.config.getint("kinesis", "batch_size")
+        self.comprehend_client = boto3.client("comprehend",
+                                              aws_access_key_id=self.aws_access_key_id,
+                                              aws_secret_access_key=self.aws_secret_access_key)
         self.firehose_client = boto3.client("firehose",
                                             aws_access_key_id=self.aws_access_key_id,
                                             aws_secret_access_key=self.aws_secret_access_key)
 
-    @staticmethod
-    def filter(tweet: dict) -> dict:
+    def filter(self, tweet: dict) -> dict:
         """
         Select a subset of all tweet data and return it as dict
         :param tweet: Tweet data as dict
@@ -44,9 +46,25 @@ class TweetHandler:
                           "retweets": tweet.retweet_count,
                           "tweet_date": tweet.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                           "tweet_location": tweet.place.full_name if tweet.place else None,
-                          "source": tweet.source}
+                          "source": tweet.source,
+                          "sentiment": self.detect_sentiment(tweet.full_text, tweet.lang)}
 
         return filtered_tweet
+
+    def detect_sentiment(self, text: str, lang: str, full_result: bool = False):
+        """
+        Detect the sentiment of a Tweet"s text using AWS Comprehend API.
+        :param text: Text of Tweet
+        :param lang: Language of string, i.e. en
+        :param full_result: Bool indicating whether to return all data provided by AWS Comprehend or just the sentiment
+        :return: Sentiment as str or dict (determined by full_result flag)
+        """
+        sentiment = self.comprehend_client.detect_sentiment(Text=text, LanguageCode=lang)
+
+        if full_result:
+            return sentiment
+        else:
+            return sentiment["Sentiment"]
 
     @staticmethod
     def handle_rate_limit(cursor: tweepy.Cursor):
