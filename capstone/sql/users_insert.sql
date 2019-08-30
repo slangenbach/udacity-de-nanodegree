@@ -1,4 +1,4 @@
-INSERT INTO users (user_id, name, nickname, descrption, location, followers_count, tweets_count, creation_date, verified)
+INSERT INTO users (user_id, name, nickname, descrption, location, followers_count, tweets_count, creation_date, is_verified)
     SELECT DISTINCT user_id,
                     name,
                     nickname,

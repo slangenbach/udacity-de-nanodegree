@@ -52,22 +52,37 @@ CREATE TABLE IF NOT EXISTS public.users (
     followers_count int4,
     tweets_count int4,
     creation_date timestamp,
-    verified bool,
+    is_verified bool,
     CONSTRAINT users.pkey PRIMARY KEY (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.sources (
+    source_id bigint identity(0, 1),
+    source varchar(256),
+    is_mobile bool,
+    is_from_twitter bool,
+    CONSTRAINT sources.pkey PRIMARY KEY (device_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.happiness (
     country varchar(256) NOT NULL,
     rank int2 NOT NULL,
-    score numeric NOT NULL,
+    score decimal NOT NULL,
+    economy decimal,
+    family decimal,
+    health decimal,
+    freedom decimal,
+    trust decimal,
+    geneorsity decimal,
+    dystopia decimal,
     CONSTRAINT happiness.pkey PRIMARY KEY (country)
 );
 
 CREATE TABLE IF NOT EXISTS public.temperature (
     country varchar(256),
-    temp_last20 decimal,
-    temp_last50 varchar,
-    temp_last100 varchar,
+    temp_last_20 decimal,
+    temp_last_50 decimal,
+    temp_last_100 decimal,
     CONSTRAINT temperature.pkey PRIMARY KEY (country)
 );
 
@@ -83,7 +98,6 @@ CREATE TABLE IF NOT EXISTS public."time" (
     CONSTRAINT time_pkey PRIMARY KEY (date)
 );
 
-
 -- fact table
 CREATE TABLE IF NOT EXISTS public.tweets (
     tweet_id varchar(256),
@@ -92,7 +106,12 @@ CREATE TABLE IF NOT EXISTS public.tweets (
     retweets int4,
     creation_date timestamp,
     location varchar(256),
-    source varchar(256),
     user_id varchar(256),
+    source varchar(256),
+    happy_rank int2,
+    happy_score decimal,
+    temp_last_20 decimal,
+    temp_last_50 decimal,
+    temp_last_100 decimal,
     CONSTRAINT tweets.pkey PRIMARY KEY (tweet_id)
 );
