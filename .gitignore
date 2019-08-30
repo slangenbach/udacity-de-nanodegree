@@ -109,3 +109,4 @@ redshift/dwh.cfg
 airflow/*.cfg
 airflow/plugins/helpers/
 capstone/app.cfg
+capstone/data/
