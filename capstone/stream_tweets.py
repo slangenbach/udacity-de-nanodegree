@@ -1,7 +1,9 @@
 import logging
 import boto3
-from tweepy import StreamListener, Stream, OAuthHandler
 from configparser import ConfigParser
+from botocore.exceptions import ClientError
+from tweepy import StreamListener, Stream, OAuthHandler
+
 
 
 class TweetListener(StreamListener):
@@ -32,8 +34,8 @@ class TweetListener(StreamListener):
             logging.debug(response)
             return True
 
-        except Exception:
-            logging.exception("Could not push tweet data to Kinesis")
+        except ClientError as ex:
+            logging.exception(f"Could not push tweet data to Kinesis: {ex}")
 
     def on_error(self, status_code):
         """
