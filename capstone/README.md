@@ -10,7 +10,7 @@ from [Kaggle](https://www.kaggle.com/datasets) or
 * Use AWS tools, e.g. Functions, Kinesis, S3, Redshift/Athena/EMR, to process, store and analyze data
 * Set up AWS tools using [Ansible](https://docs.ansible.com/ansible/latest/index.html)
 
-Data
+Data:
 * https://www.kaggle.com/unsdsn/world-happiness
 * https://data.worldbank.org/
 
@@ -36,7 +36,6 @@ Tasks:
     and simultaneous access by > 100 users
 
 ## Prerequisites
-* Ansible
 * Python packages tweepy, boto3 (c.f. capstone_env.yml and requirements.txt)
 
 ## Usage
@@ -54,4 +53,6 @@ tbd
 * [Tutorial on using tweepy to process Twitter streams with Python](https://www.dataquest.io/blog/streaming-data-python/)
 * [Blog post on using Kinesis and Redshift to stream Twitter data](https://medium.com/@siprem/streaming-twitter-feed-using-kinesis-data-firehose-and-redshift-745c96d04f58)
 * [Blog post on using Kinesis to batch insert streaming data](https://medium.com/retailmenot-engineering/building-a-high-throughput-data-pipeline-with-kinesis-lambda-and-dynamodb-7d78e992a02d)
+* [AWS Boto 3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
 * [AWS Kinesis documentation for PutRecords](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecords.html)
+* [AWS Comprehend documentation for DetectSentiment](https://docs.aws.amazon.com/comprehend/latest/dg/API_DetectSentiment.html)
