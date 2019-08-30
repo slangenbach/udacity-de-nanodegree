@@ -4,9 +4,13 @@ import json
 import boto3
 import tweepy
 from configparser import ConfigParser
+from botocore.exceptions import ClientError
 
 
 class TweetHandler:
+    """
+    Process and filter individual or batches of tweets and push them to AWS Kinesis.
+    """
 
     def __init__(self, config):
         self.config = config
@@ -53,7 +57,7 @@ class TweetHandler:
 
     def detect_sentiment(self, text: str, lang: str, full_result: bool = False):
         """
-        Detect the sentiment of a Tweet"s text using AWS Comprehend API.
+        Detect the sentiment of a Tweet's text using AWS' Comprehend API.
         :param text: Text of Tweet
         :param lang: Language of string, i.e. en
         :param full_result: Bool indicating whether to return all data provided by AWS Comprehend or just the sentiment
@@ -101,8 +105,8 @@ class TweetHandler:
                                                            })
                 logging.debug(response)
 
-            except Exception:
-                logging.exception("Could not push tweet data to Kinesis")
+            except ClientError as ex:
+                logging.exception(f"Could not push tweet data to Kinesis: {ex}")
 
             finally:
                 self.counter += 1
@@ -139,7 +143,7 @@ class TweetHandler:
                                                              }])
             logging.debug(response)
 
-        except Exception as ex:
+        except ClientError as ex:
             logging.exception(f"Could not push tweet batch to Kinesis: {ex}")
 
         finally:
