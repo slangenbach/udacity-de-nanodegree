@@ -43,7 +43,6 @@ This file contains an overview of the attributes (columns), types and descriptio
 | trust | decimal | Contribution of corruption into situation to happiness score
 | generosity | decimal | Contribution of perceived generosity to happiness score
 | dystopia | decimal | Contribution of dystopia to happiness score
-| 
 
 #### Staging Temperature
 
@@ -61,7 +60,7 @@ country | varchar | Country where temperature was recorded
 | name | varchar | c.f. staging_tweets
 | nickname | varchar | c.f. staging_tweets
 | description | varchar | c.f. staging_tweets
-| location | varchar c.f. user_location in staging_tweets
+| location | varchar | c.f. user_location in staging_tweets
 | followers_count | int | c.f. staging_tweets
 | tweets_count | int | c.f. staging_tweets
 | creation_date | timestamp | c.f. user_date in staging_tweets
