@@ -3,6 +3,7 @@ from pathlib import Path
 from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.dummy_operator import DummyOperator
+from airflow.operators.bash_operator import BashOperator
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.s3_to_redshift_operator import S3ToRedshiftTransfer
 from airflow.operators.check_operator import CheckOperator, ValueCheckOperator
@@ -39,7 +40,10 @@ with DAG(dag_id='capstone_dag',
     # define tasks
     start = DummyOperator(task_id='start_execution')
 
-    upload_raw_data = None
+    upload_raw_data = BashOperator(
+        task_id='upload_raw_data_to_s3',
+        bash_command='python ../upload_to_s3.py'
+    )
 
     create_tables = PostgresOperator(
         task_id='create_tables',
@@ -165,4 +169,4 @@ with DAG(dag_id='capstone_dag',
     dim_tasks = [load_users_table, load_sources_table, load_happiness_table, load_temperature_table, load_time_table]
     star_checks = [check_users, check_sources, check_happiness_dim, check_temperature_dim, check_time, check_tweets_dim]
 
-    start >> create_tables >> staging_tasks >> staging_checks >> dim_tasks >> load_tweets_table >> star_checks >> end
+    start >> upload_raw_data >> create_tables >> staging_tasks >> staging_checks >> dim_tasks >> load_tweets_table >> star_checks >> end
