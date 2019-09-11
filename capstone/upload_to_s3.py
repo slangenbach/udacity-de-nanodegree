@@ -8,10 +8,11 @@ from botocore.exceptions import ClientError
 
 def create_bucket(bucket_name: str, region: str = 'us-west-2'):
     """
-    # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-example-creating-buckets.html
-    :param bucket_name:
-    :param region:
-    :return:
+    Create S3 bucket
+    https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-example-creating-buckets.html
+    :param bucket_name: Name of S3 bucket
+    :param region: AWS region where bucket is created
+    :return: True if bucket is created or already exists, False if ClientError occurs
     """
     try:
         s3_client = boto3.client('s3', region=region)
@@ -34,8 +35,13 @@ def create_bucket(bucket_name: str, region: str = 'us-west-2'):
 
 def upload_file(file_name: str, bucket: str, object_name: str = None, region: str = 'us-west-2'):
     """
+    Upload file to S3 bucket
     https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
-    :return:
+    :param file_name: Path to file including filename
+    :param bucket: Bucket where file is uploaded to
+    :param object_name: Name of file inside S3 bucket
+    :param region: AWS region where bucket is located
+    :return: True if upload succeeds, False if ClientError occurs
     """
     if object_name is None:
         object_name = file_name
