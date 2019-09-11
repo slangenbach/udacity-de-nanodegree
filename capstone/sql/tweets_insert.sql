@@ -16,7 +16,7 @@ SELECT t.tweet_id,
        t.favs,
        t.retweets,
        t.creation_date,
-       t.location,
+       t.user_location,
        t.user_id,
        t.source,
        h.rank,
@@ -26,7 +26,7 @@ SELECT t.tweet_id,
        temp.last_100
 FROM staging_tweets t
     LEFT JOIN happiness h
-        ON t.location = h.country
+        ON t.user_location = h.country
     LEFT JOIN temperature temp
-        ON t.location = temp.country
+        ON t.user_location = temp.country
 
