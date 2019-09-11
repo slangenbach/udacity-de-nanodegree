@@ -31,11 +31,9 @@ our case, since it can scale to large amounts of data/users easily and is fully 
 individual scripts to manually populate our data source, we use [Airflow](https://airflow.apache.org/) to create tables
 in Redshift, stage data and derive fact and dimension tables (c.f. `airflow/capstone_dag.py`).
 
-!capstone_dag.png
-
 Once this has been done we have access to the following star-schema based data model: 
  
-| table | description |
+| Table | Description |
 --- | ---
 | staging_tweets | Staging table for tweets
 | staging_happiness | Staging table for world happiness data
