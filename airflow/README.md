@@ -23,7 +23,7 @@ and dimension tables are filled with data from the staging tables.
 1. Clone this repository and navigate into the _airflow_ directory
 2. Copy all directories and files (dags, operators, sql) into your _AIRFLOW_ home directory or use the `--subdir` 
 parameter when executing the following commands from the CLI
-3. Verify that the sparkify_dag has been correclty parsed by Airflow via `aitrflow list_tasks sparkify_dag --tree`
+3. Verify that the sparkify_dag has been correclty parsed by Airflow via `airflow list_tasks sparkify_dag --tree`
 4. Trigger a DAG run via `airflow trigger_dag sparkify_dag`. If just want to run a specific task do so via
 `airflow run -i sparkify_dag <task_id>`
 
